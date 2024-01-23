@@ -1,0 +1,22 @@
+\section{SLURM}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{SLURM Workload Manager}
+    The most important SLURM commands are:
+    %\setbeamertemplate{description item}[align left]
+    \begin{description}[ ]
+      \item[\mintinline{text}{sinfo}]\hfill\\ \quad
+      list available nodes including their operational state
+      \item[\mintinline{text}{squeue}]\hfill\\\quad
+      list running or pending jobs
+      \item[\mintinline{text}{scancel JOB_ID}]\hfill\\\quad
+      cancel to job identified by \texttt{JOB\_ID} and remove it from the queue
+      \item[\mintinline{text}{srun --pty bash}]\hfill\\\quad
+      start an interactive session on one node
+      \item[\mintinline{text}{srun -N X ./simulate [OPTIONS]}]\hfill\\\quad
+      run your simulation on $X$ compute nodes in parallel
+      \item[\mintinline{text}{sbatch -N X -n X --wrap "./simulate [OPTIONS]"}]\hfill\\\quad
+      queue your simulation on $X$ compute nodes in parallel for future execution
+    \end{description}
+    For more information, e.g., using \mintinline{text}{sbatch} with a script instead of \mintinline{text}{--wrap}, see the official \link{https://slurm.schedmd.com/}{SLURM homepage}.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

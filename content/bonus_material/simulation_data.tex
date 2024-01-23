@@ -1,0 +1,53 @@
+\section{Simulation Data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{The Simulation Data}
+    Two data sets given in \link{\urlIliasData}{ILIAS}:
+    \begin{itemize}
+        \item Planets, dwarf planets, and (named) moons (feel free to add the data of the remaining moons if you can find them and let us know!) in our solar system. \\[.25em]
+        \itFollows{This data can be used for development, debugging, and verification.}
+        \item The asteroid data used in scenario 1.
+    \end{itemize}
+    \pause
+    \vfill
+    More asteroid data for scenario 2 can be downloaded using NASA Jet Propulsion Laboratory's (JPL) \link{https://ssd.jpl.nasa.gov/tools/sbdb_query.html}{Small-Body Database}:%
+    \begin{itemize}
+        \item select desired orbit class(es)
+        \item add orbit constraints: e.g., \texttt{albedo} and \texttt{diameter} must be defined (Physical Parameter Fields)
+        \item select necessary Fields (for the name use the \texttt{IAU name} field)
+    \end{itemize}
+    This allows you to generate nearly arbitrarily large data sets using real-world data: $\approx\num{140000}$ asteroids with defined \texttt{albedo} and \texttt{diameter} and over one million asteroids in total.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{The Simulation Data - Format}
+
+    You need to be able to parse the following \texttt{.csv} file:
+    \begin{minted}[breaklines, fontsize=\scriptsize]{text}
+e,a,i,om,w,ma,epoch,H,albedo,diameter,class,name,mass,central_body
+0.2056302515978038,0.3870982252718477,7.005014362233553,48.33053877672862,29.12427943500334, 172.7497133441682,2451544.5,,,,PLA,Mercury,3.301011e+23,Sun
+.2227328427416296,1.4581505451557,10.82795835269297,304.2910556026917,178.9325148860407, 358.8212586092838,2459800.5,10.31,0.25,16.84,AMO,Eros,,
+    \end{minted}
+    \vfill
+    \mintinline{text}{e,a,i,om,w,ma,epoch}: as part of the Keplerian orbital elements. \\
+    \mintinline{text}{H,albedo,diameter,mass}: to estimate the mass of a body if not given. \\
+    \mintinline{text}{class}: the orbital class of the body. \\
+    \mintinline{text}{name}: the \link{https://en.wikipedia.org/wiki/Astronomical_naming_conventions}{IAU name} of the body. \\
+    \mintinline{text}{central_body}: the name of the central body.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{The Simulation Data - General Remarks}
+    \begin{itemize}
+        \item Independent of the used JPL asteroid data set, the planets and moon data set must \textbf{always} be included in your simulation!
+        \item Be aware that the angles are given in degrees and not in radians.
+        \item Be aware that some bodies may appear multiple times (e.g., Pluto and its moons) and you have to ensure that these bodies are only used once in the actual simulation!
+        \item All data must be saved and processed using double precision (FP64, \mintinline{c++}{double}) floating point types.
+        \item \textbf{Attention:} The Sun/Sol (with the reference mass \SI{1.98847e30}{\kilo\gram} and epoch $2451544.5$ JD) must always be \textbf{manually} added at the coordinate's origin since it is impossible to specify its orbital elements with respect to itself.
+    \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
