@@ -1,0 +1,104 @@
+% !TeX program = pdflatex
+
+%\documentclass[handout,aspectratio=169,table,x11names,dvipsnames]{beamer}
+\documentclass[aspectratio=169,table,x11names,dvipsnames]{beamer}
+\usepackage{zref-abspage}
+
+\setbeamertemplate{navigation symbols}{}
+
+\input{config.tex}
+\input{constants.tex}
+\usetheme[
+	totalframenumber,
+	sectionslide,
+	titleimage=figures/title_image.png,
+]{uniS}
+
+% information for the title page
+\title{Lab Course:\\ Solar System \\Simulation}
+\cclicense{by-nc-sa}
+
+\institute[logo=.logos/ipvslogo_rund_blau_dunkel.pdf, url=https://www.ipvs.uni-stuttgart.de/]{Institute for Parallel and Distributed Systems}{IPVS}
+
+\department[logo=.logos/logo_scientific_comp.pdf, url=https://www.ipvs.uni-stuttgart.de/departments/sc/]{Scientific Computing}{SC}
+
+\author[Van Craen, Breyer, Prof. Pflüger]{Alexander Van Craen,\\Marcel Breyer,\\Prof. Dr. Dirk Pflüger}
+\date{\semester}
+
+\begin{document}
+
+
+
+\titleslide
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[c]{Who are we?}
+    \setfontsize{9}
+    \begin{columns}[c]
+    	\begin{column}{0.33\textwidth}
+			\centering
+			\begin{tikzpicture}
+				\node[circle, minimum size=2.5cm, path picture={\node at (path picture bounding box.center){\includegraphics[height=2.5cm]{figures/speaker/AlexanderVanCraen}};}] {};
+			\end{tikzpicture} \\[.5em]
+			Alexander Van Craen \\[1em]
+			\href{mailto:Alexander.Van-Craen@ipvs.uni-stuttgart.de}{Alexander.Van-Craen@ipvs.uni-stuttgart.de}
+		\end{column}
+    	\begin{column}{0.33\textwidth}
+    		\centering
+			\begin{tikzpicture}
+				\node[circle,minimum size=2.5cm, path picture={\node at (path picture bounding box.center){\includegraphics[height=2.5cm]{figures/speaker/MarcelBreyer}};}] {};
+			\end{tikzpicture} \\[.5em]
+			Marcel Breyer \\[1em]
+			\href{mailto:Marcel.Breyer@ipvs.uni-stuttgart.de}{Marcel.Breyer@ipvs.uni-stuttgart.de}
+    	\end{column}
+    	\begin{column}{0.33\textwidth}
+    		\centering
+			\begin{tikzpicture}
+				\node[circle,minimum size=2.5cm, path picture={\node at (path picture bounding box.center){\includegraphics[height=2.5cm]{figures/speaker/DirkPflueger}};}] {};
+			\end{tikzpicture} \\[.5em]
+			Prof. Dr. Dirk Pflüger \\[1em]
+			\href{mailto:Dirk.Pflueger@ipvs.uni-stuttgart.de}{Dirk.Pflueger@ipvs.uni-stuttgart.de}
+    	\end{column}
+    \end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% input basic slides -> most important slides
+\input{content/basic}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+{
+\usebackgroundtemplate{\transparent{0.35}\includegraphics[width=\paperwidth]{figures/backgrounds/bonus_material}}
+\begin{frame}
+    \vspace{1.5cm}
+    \begin{center}
+        \setfontsize{35pt}\bfseries
+        Bonus Material
+    \end{center}
+    \btVFill
+    \setbeamertemplate{section in toc}{\raggedright \leftskip=1.6em \parindent=-1.6em \textcolor{structure.fg}{$\blacktriangleright$}\hspace{.5em}~\inserttocsection\\}
+    \begin{multicols}{2}
+        \tableofcontents[subsectionstyle=hide]
+    \end{multicols}
+\end{frame}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% input all bonus material content slides
+\include{content/bonus_material/target_system}
+\include{content/bonus_material/slurm}
+\include{content/bonus_material/theory}
+\include{content/bonus_material/simulation_data}
+\include{content/bonus_material/value_approximation}
+\include{content/bonus_material/keplerian_orbital_elements}
+\include{content/bonus_material/parallelization}
+\include{content/bonus_material/visualization_via_paraview}
+\include{content/bonus_material/simulation}
+\include{content/bonus_material/important_deadlines}
+
+
+\end{document}

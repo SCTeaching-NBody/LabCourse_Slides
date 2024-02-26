@@ -1,0 +1,10 @@
+\frametitle{Phase 1: Requirements - Scenario 1}
+  Simulating our solar system with the provided planets and moons as well as all asteroids with a \textbf{given} \texttt{diameter} and \texttt{albedo} and where the \textbf{main-belt asteroids} (\texttt{MBA}) are further constraint with a diameter \textbf{greater or equal} than \SI{10}{\kilo\meter} must not take longer than $\SI{1}{\hour}$ on our target system \texttt{sgscl1} using $8$ compute nodes:
+  \begin{center}
+    \setfontsize{6.8pt}
+    \mintinline{text}{srun --exclusive -N 8 ./simulate --file scenario1.csv --dt 1h --t_end 12y --vs 2d --vs_dir sim_s1 --theta 1.05}
+    \begin{figure}
+        \includegraphics[width=.4\textwidth]{figures/scenario1_result.png}
+        \caption{Simulation result of the inner solar system with different colors for the different orbit classes after \num{105192} time steps with \num{19054} bodies.}
+    \end{figure}
+  \end{center}

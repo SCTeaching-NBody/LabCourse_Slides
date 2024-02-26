@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+host\PYG{+w}{ }ipvslogin
+\PYG{+w}{    }ForwardAgent\PYG{+w}{ }yes
+\PYG{+w}{    }hostname\PYG{+w}{ }ipvslogin.informatik.uni\PYGZhy{}stuttgart.de
+\PYG{+w}{    }user\PYG{+w}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{USERNAME}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{+w}{    }IdentityFile\PYG{+w}{ }\PYGZti{}/.ssh/id\PYGZus{}rsa
+
+host\PYG{+w}{ }sgscl1
+\PYG{+w}{    }ForwardAgent\PYG{+w}{ }yes
+\PYG{+w}{    }ProxyJump\PYG{+w}{ }ipvslogin
+\PYG{+w}{    }hostname
+\PYG{+w}{    }user\PYG{+w}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{USERNAME}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{+w}{    }IdentityFile\PYG{+w}{ }\PYGZti{}/.ssh/id\PYGZus{}rsa
+\end{Verbatim}

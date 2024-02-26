@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+srun \PYGZhy{}\PYGZhy{}pty bash
+\end{Verbatim}

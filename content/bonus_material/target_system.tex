@@ -1,0 +1,70 @@
+\section{Target System}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Target System: \texttt{sgscl1} - Hardware}
+  \texttt{sgscl1} is a small cluster consisting of one login node and $\num{14}$ compute nodes. \\
+  \textbf{Attention:} \textbf{do not} perform \textbf{any} calculations on the login node!
+  \vfill
+  Available hardware per compute node:
+  \begin{itemize}
+      \item $\num{1}$ \link{https://ark.intel.com/content/www/us/en/ark/products/93742/intel-xeon-processor-e31585-v5-8m-cache-3-50-ghz.html}{Intel(R) Xeon(R) CPU E3-1585 v5 @ 3.50GHz}
+      \begin{itemize}
+          \item $\num{4}$ physical cores
+          \item $\num{8}$ hyper threads
+      \end{itemize}
+      \item $\SI{31}{\gibi\byte}$ DDR4 RAM
+      \item $\SI{400}{\giga\byte}$ \texttt{/scratch} space (\textbf{not shared} across nodes of the cluster)\\
+      \itFollows{If you want to use the \texttt{/scratch} space instead of your \texttt{\$HOME} directory, you must create the \texttt{/scratch/FaPra/\$\{GROUP\_NAME\}} custom directory and delete it afterwards!}
+      \item inter-node connection via \SI{10}{\giga\byte} Ethernet
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Connecting to sgscl1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Target System: \texttt{sgscl1} - Connecting to the Cluster - 1}
+    First login to our server:
+    \begin{enumerate}
+        \item \mintinline{sh}{ssh ${USERNAME}@ipvslogin.informatik.uni-stuttgart.de}
+        \item You will be prompted to input your password.
+        \item Change your initial password: See \mintinline{sh}{passwd} and follow the displayed instructions. This \textbf{must} be done during your first login.
+        \item Disconnect from the server by either typing \mintinline{sh}{exit} or using \texttt{Strg + d}.
+    \end{enumerate}
+    \pause
+    \vfill
+    Connecting to the \texttt{sgscl1} cluster's login node using an ssh key:
+    \begin{enumerate}
+        \item \link{https://docs.oracle.com/en/cloud/cloud-at-customer/occ-get-started/generate-ssh-key-pair.html}{Generate a new ssh key pair} (if none already exists).
+        \item Copy your public ssh key to our login server via:
+        {
+            \setfontsize{9pt}
+            \mintinline{sh}{ssh-copy-id -i ~/.ssh/id_rsa ${USERNAME}@ipvslogin.informatik.uni-stuttgart.de}
+        }
+        \textbf{Note:} you will be prompted to enter your passwords.
+    \end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Target System: \texttt{sgscl1} - Connecting to the Cluster - 2}
+    \begin{enumerate}
+        \setcounter{enumi}{2}
+        \item Add the following lines to your \texttt{\~{}/.ssh/config} file (on your local machine):\vspace*{-.5em}
+        \begin{minted}{bash}
+host ipvslogin
+    ForwardAgent yes
+    hostname ipvslogin.informatik.uni-stuttgart.de
+    user ${USERNAME}
+    IdentityFile ~/.ssh/id_rsa
+
+host sgscl1
+    ForwardAgent yes
+    ProxyJump ipvslogin
+    hostname
+    user ${USERNAME}
+    IdentityFile ~/.ssh/id_rsa
+        \end{minted}
+        \item Now you can login to \texttt{sgscl1} by simply using: \mintinline{sh}{ssh sgscl1}
+    \end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

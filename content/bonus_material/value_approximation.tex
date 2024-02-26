@@ -1,0 +1,117 @@
+\section{Value Approximation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Value Approximation}
+    
+    Some values or columns may not be present and, therefore, must be approximated:
+    \begin{itemize}
+        \item the \texttt{mass} column does not exist in the JPL data sets: it must be estimated using the asteroid's \texttt{diameter} and geometric \texttt{albedo}.
+        \item If no \texttt{albedo} is given, approximate it using the asteroid's orbit class.
+        \item If no \texttt{diameter} is given, approximate it using the asteroid's absolute magnitude \texttt{H} and geometric \texttt{albedo}.
+        \item The \texttt{central\_body} column does not exist in the JPL data sets: by definition, the \texttt{central\_body} of all asteroids is the Sun/Sol.
+    \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[label={orbit_classes}]
+    \frametitle{Value Approximation - Geometric Albedo}
+    \btVFill
+    Approximate the assumed geometric \texttt{albedo} using random number distributions based on the asteroid's orbit class:
+    \begin{columns}
+        \begin{column}{.5\linewidth}
+            \setfontsize{9pt}
+            \begin{description}
+                \item[AMO] (Amor): $\interval{0.450}{0.550}$
+                \item[APO] (Apollo): $\interval{0.450}{0.550}$
+                \item[ATE] (Aten): $\interval{0.450}{0.550}$
+                \item[IEO] (Interior Earth Obj.): $\interval{0.450}{0.550}$
+                \item[MCA] (Mars-crossing): $\interval{0.450}{0.550}$
+                \item[IMB] (Inner Main-belt): $\interval{0.030}{0.103}$
+                \item[MBA] (Main-belt): $\interval{0.097}{0.203}$
+            \end{description}   
+        \end{column}
+        \hspace*{-1cm}
+        \begin{column}{.55\linewidth}
+            \setfontsize{9pt}
+            \begin{description}
+                \item[OMB] (Outer Main-belt): $\interval{0.197}{0.5}$
+                \item[CEN] (Centaur): $\interval{0.450}{0.750}$
+                \item[TJN] (Jupiter Trojans): $\interval{0.188}{0.124}$
+                \item[TNO] (TransNeptunian Obj.): $\interval{0.022}{0.130}$
+                \item[AST] (Asteroid): $\interval{0.450}{0.550}$
+                \item[PAA] (Parabolic): $\interval{0.450}{0.550}$
+                \item[HYA] (Hyperbolic): $\interval{0.450}{0.550}$
+            \end{description}
+        \end{column}
+    \end{columns}
+    \vspace*{.5em}
+    \textbf{Note:} These are just very rough estimates, if you find more accurate estimates feel free to use them and let us know!
+    \btVFill
+    \visible<2->{
+        We also added four new orbit classes (for a better ParaView output):
+        \begin{columns}
+            \begin{column}{.5\linewidth}
+                \setfontsize{9pt}
+                \begin{description}
+                    \item[STA] (Star): the Sun/Sol
+                    \item[PLA] (Planets): Earth, Mars, $\dots$
+                \end{description}   
+            \end{column}
+            \hspace*{-1cm}
+            \begin{column}{.55\linewidth}
+                \setfontsize{9pt}
+                \begin{description}
+                    \item[DWA] (Dwarf Planets): Ceres, Pluto, Eris, $\dots$
+                    \item[SAT] (Satellites (Moons)): Luna, Titan, $\dots$
+                \end{description}
+            \end{column}
+        \end{columns}
+    }
+    \btVFill
+    \setfontsize{8pt}
+    See: \url{https://pdssbn.astro.umd.edu/data_other/objclass.shtml}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Value Approximation - Diameter}
+    \btVFill
+    Approximate the diameter $d$ of an asteroid given its assumed geometric \texttt{albedo} and absolute magnitude $H$ using:
+    \begin{flalign*}
+        &&& d = 1329 \cdot \texttt{albedo}^{-0.5} \cdot 10^{-0.2H}
+        && [\si{\kilo\meter}]
+    \end{flalign*}
+    \btVFill
+    \setfontsize{8pt}
+    See: \texttt{B. Carry: Density of asteroids (2012)\\[-.2em]
+    (DOI: \url{https://doi.org/10.1016/j.pss.2012.03.009})}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Value Approximation - Mass}
+    Approximate the density $\rho$ of an asteroid given its assumed geometric \texttt{albedo} based on the three main asteroid categories: 
+    \begin{description}
+        \item[C-type] (chondrite): most common, probably consist of clay and silicate rocks; \\
+        assumption: $\texttt{albedo} < \num{0.1} \quad\rightarrow\quad \rho = \SI{1.38}{\gram\per\cm^3}$ 
+        \item[S-type] (\enquote{stony}): made up of silicate materials and nickel-iron;\\
+        assumption: $\num{0.1} \leq \texttt{albedo} \leq \num{0.2} \quad\rightarrow\quad \rho = \SI{2.71}{\gram\per\cm^3}$ 
+        \item[M-type] (nickel-iron): metallic;\\
+        assumption: $\texttt{albedo} > \num{0.2} \quad\rightarrow\quad \rho = \SI{5.32}{\gram\per\cm^3}$ 
+    \end{description}
+    \vfill
+    \visible<2->{
+        Approximate the mass of the asteroid using its presumed density $\rho$ and its diameter $d$ assuming a spherical shape via (\textbf{note:} pay attention to the physical units!):
+        
+        \begin{flalign*}
+            &&& m = \dfrac{4}{3}\pi \cdot \left(\dfrac{d}{2}\right)^3 \cdot \rho
+            && [\si{\kilo\gram}]
+        \end{flalign*}
+    }
+    \btVFill
+    \setfontsize{8pt}
+    See: \url{https://solarsystem.nasa.gov/asteroids-comets-and-meteors/asteroids/in-depth/}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
