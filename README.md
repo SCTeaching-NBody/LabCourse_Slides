@@ -3,7 +3,7 @@
 
 This repository contains the slides for our lab course *Solar System Simulation* as well as a short announcement.
 
-Compiled Slides: [Slides.pdf](https://raw.githubusercontent.com/SCTeaching-NBody/LabCourse_Slides/gh-pages/config.tex)
+Compiled Slides: [Slides.pdf](https://raw.githubusercontent.com/SCTeaching-NBody/LabCourse_Slides/gh-pages/main.pdf)
 
 ## Dependencies
 
