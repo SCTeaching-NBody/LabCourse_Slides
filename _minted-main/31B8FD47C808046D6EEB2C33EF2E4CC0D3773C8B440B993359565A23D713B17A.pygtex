@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{time}\PYG{+w}{ }./simulate\PYG{+w}{ }\PYGZhy{}\PYGZhy{}file\PYG{+w}{ }data.csv\PYG{+w}{ }\PYGZhy{}\PYGZhy{}dt\PYG{+w}{ }1h\PYG{+w}{ }\PYGZhy{}\PYGZhy{}t\PYGZus{}end\PYG{+w}{ }1y\PYG{+w}{ }\PYGZhy{}\PYGZhy{}vs\PYG{+w}{ }2d\PYG{+w}{ }\PYGZhy{}\PYGZhy{}theta\PYG{+w}{ }\PYG{l+m}{1}.05
+\end{Verbatim}

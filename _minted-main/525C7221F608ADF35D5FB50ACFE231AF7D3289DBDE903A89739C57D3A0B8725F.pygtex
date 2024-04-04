@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+./simulate \PYGZhy{}\PYGZhy{}file data.csv \PYGZhy{}\PYGZhy{}dt 1h \PYGZhy{}\PYGZhy{}t\PYGZus{}end 1y \PYGZhy{}\PYGZhy{}vs 1d \PYGZhy{}\PYGZhy{}vs\PYGZus{}dir sim\PYGZus{}out \PYGZhy{}\PYGZhy{}theta 1.05
+\end{Verbatim}

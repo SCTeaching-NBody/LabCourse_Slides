@@ -1,0 +1,18 @@
+\frametitle<1>{Theory: A Complete Simulation}
+  \frametitle<2>{A Complete Simulation}
+\begin{algorithmcl}
+    \begin{algorithmic}[1]
+        \State{adjust initial velocities: $\vec{u}_i = \dfrac{\sum_j m_j \vec{v}_j}{\sum_j m_j}$;\quad$\vec{v}_i = \vec{v}_i - \vec{u}_i$}
+        \State{update accelerations $\vec{a}_i$}
+        \State{visualize initial state}
+        \While{simulation not terminated yet}
+            \State{perform leapfrog integration step}
+            \If{time step should be visualized}
+                \State{visualize time step}
+            \EndIf
+            \State{update time step}
+        \EndWhile
+        \State{Save final state of the simulation as \texttt{.csv} file (name + mass + positions + velocities)}
+    \end{algorithmic}
+\end{algorithmcl}
+    \only<2>{\vfill\textbf{Question:} What can and should be parallelized?}

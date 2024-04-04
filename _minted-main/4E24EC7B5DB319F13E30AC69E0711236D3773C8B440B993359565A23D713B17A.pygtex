@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/bin/sh}
+git\PYG{+w}{ }clone\PYG{+w}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{REPOSITORY\PYGZus{}URL}\PYG{l+s+si}{\PYGZcb{}}\PYG{+w}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{GROUP\PYGZus{}NAME}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{n+nb}{cd}\PYG{+w}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{GROUP\PYGZus{}NAME}\PYG{l+s+si}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{exit}
+git\PYG{+w}{ }checkout\PYG{+w}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{COMMIT\PYGZus{}HASH}\PYG{l+s+si}{\PYGZcb{}}
+\end{Verbatim}

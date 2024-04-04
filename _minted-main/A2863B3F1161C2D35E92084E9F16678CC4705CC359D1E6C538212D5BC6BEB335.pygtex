@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+ssh\PYGZhy{}copy\PYGZhy{}id\PYG{+w}{ }\PYGZhy{}i\PYG{+w}{ }\PYGZti{}/.ssh/id\PYGZus{}rsa\PYG{+w}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{USERNAME}\PYG{l+s+si}{\PYGZcb{}}@ipvslogin.informatik.uni\PYGZhy{}stuttgart.de
+\end{Verbatim}
