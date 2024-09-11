@@ -39,6 +39,25 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Additional Meetings}
+	\begin{itemize}
+		\item Every \textbf{two weeks} we will have a short mandatory meeting where every group presents their progress in a short \SI{5}{\minute} presentation.
+		\item Necessary content: 
+		\begin{itemize}
+			\item Summary: a short summary of what you did in the last two weeks and whether to achieved your previous goals.
+			\item Problems: the biggest problems you encountered. 
+			\item Next Steps: the next steps you will work on in the next weeks. 
+		\end{itemize}
+		\item Additional remarks or questions are also welcome!
+		\item A slide template can be found in \link{\urlIliasSummarySlideTemplate}{ILIAS}, but other slide templates can also be used. 
+	\end{itemize}
+	\vfill
+	\DisplayRightArrow This is only meant as assistance for you and will not influence the final grade!
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section*{Group Formation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -260,7 +279,7 @@ git checkout ${COMMIT_HASH}
       \end{itemize}
       \item Which group can simulate the most bodies in the available time? (scenario 2)
       \begin{itemize}
-          \item Add your runtime and number of bodies to the \link{\urlNextcloud}{Nextcloud table} using the password \texttt{\passwordNextcloud}.
+          \item Add your runtime and number of bodies to the \link{\urlNextcloud}{Nextcloud table}% using the password \texttt{\passwordNextcloud}.
           \item At the end of phase 1, the runtimes and number of bodies will be verified by us.
           \item Real simulation without tricks (e.g., it is \textbf{not} allowed to simply output pre-calculated time steps!).
       \end{itemize}
@@ -326,7 +345,7 @@ git checkout ${COMMIT_HASH}
 	\begin{itemize}
 	    \item code acceleration using GPUs (e.g., via CUDA, OpenCL, Kokkos, or SYCL)
 	    \item replacing MPI with another framework for distributed computing like HPX
-	    \item add more physics (e.g., collision detection)
+	    \item add more physics (e.g., collision detection for simulating the Kessler syndrome)
 	    \item implementing more efficient algorithms (e.g., Fast Multipole Methods)
 	    \item lifting the simplification that every node saves all bodies \\
 	    $\rightarrow$ each node only knows about a subset of all bodies (needs load balancing)
