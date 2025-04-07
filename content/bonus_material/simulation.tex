@@ -1,0 +1,73 @@
+\section{Simulation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Running the Simulation}
+
+The simulation must be executable on the command line as follows, whereby the command line parameters may be given in an arbitrary order!
+\begin{center}
+    \setfontsize{9pt}
+    \mintinline{text}{./simulate --file data.csv --dt 1h --t_end 1y --vs 1d --vs_dir sim_out --theta 1.05}
+    \mintinline{text}{./simulate  --dt 1h --vs 1d --t_end 1y --theta 1.05 --file data.csv --vs_dir sim_out}
+\end{center}
+
+\begin{description}
+  \item[\texttt{--file}] the used simulation data file
+  \item[\texttt{--dt}] the time step width $\Delta t$
+  \item[\texttt{--t\_end}] the end time of the simulation
+  \item[\texttt{--vs}] the visualization step width
+  \item[\texttt{--vs\_dir}] the top most output directory for all visualization files
+  \item[\texttt{--theta}] the threshold in the Barnes-Hut algorithm
+\end{description}
+\vfill
+The above invocation simulates \mintinline{text}{data.csv} for one earth year with a resolution of one hour visualizing each day and writing all visualization files to the folder \mintinline{text}{sim_out/}.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Running the Simulation - Time Duration Parameters}
+
+    For a more intuitive command line experience, the values of the three command line parameters \texttt{--dt}, \texttt{--t\_end}, and \texttt{--vs} are positive, decimal numbers followed by one of \texttt{h} (hours), \texttt{d} (days), \texttt{m} (months), or \texttt{y} (years).
+    \vfill
+    Examples for valid values are: \SI{1}{\hour}, \SI{12}{\day}, \SI{3.5}{\month}, or \SI{1.25}{\year}. \\[.4em]
+    Examples for invalid values are: \SI{-2}{\hour}, \SI{60}{\second}, or \num{1.5}\,\texttt{hd}.
+    \vfill
+    \pause
+    \textbf{Note:} you should convert all values into earth days for your internal calculations:
+    \begin{itemize}
+        \item $\SI{1}{\hour} \equiv \SI{0.0416667}{\day}$
+        \item $\SI{1}{\month} \equiv \SI{30.4167}{\day}$
+        \item $\SI{1}{\year} \equiv \SI{365.25}{\day}$
+    \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Validation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Validation Hints for the Simulation}
+  \begin{itemize}
+    \item Use the ParaView visualization to validate your simulation:
+    \begin{itemize}
+        \item Is the simulation stable, i.e., do all planets and their moons have stable orbits?
+        \item Use the known orbital periods of objects:
+        \begin{itemize}
+            \item Earth approx. \SI{1}{\year} (\SI{365.25}{\day})
+            \item Mars approx. \SI{687}{\day}
+            \item Jupiter approx. \SI{12}{\year} (\SI{4383}{\day}) 
+            \item Europa (moon) approx. \SI{85}{\hour} (\SI{3.54}{\day})
+        \end{itemize}
+    \end{itemize}
+    \item Use the Virial Equilibrium and the laws of mass and energy conservation as additional mechanisms to detect errors.
+  \end{itemize}
+  \vfill
+  \pause
+  \textbf{Attention!:}\\
+  It may happen that Pluto and its moons will not form a stable system, i.e., some moons (mainly Kerberos and Hydra) will be ejected from the system. This is most likely \textbf{not} a bug in your simulation, but the consequence of insufficient data from JPL's Horizons website.\\[-.5em]
+  \begin{spacing}{0.8}
+      \setfontsize{8pt}
+      For more information see: \\
+      \texttt{S. Kenyon, B. Bromley: A Pluto-Charon Sonata IV. Improved Constraints on the Dynamical Behavior and Masses of the Small Satellites\textquotedblright (2022) (\url{https://arxiv.org/pdf/2204.04226.pdf})}
+    \end{spacing}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

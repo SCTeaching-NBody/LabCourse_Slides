@@ -1,0 +1,190 @@
+\section{Visualization via ParaView}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Visualization via ParaView}
+  \begin{itemize}
+      \item Visualizing the data via \link{https://www.paraview.org/}{ParaView}.
+      \item Create one \texttt{.vtp} file, containing information about the current simulation state (e.g., body mass, position, energies of the system, $\dots$) for every visualization step on \textbf{every} MPI rank containing only the data it is responsible for.
+      \item Create one \texttt{.pvd} file for the whole simulation on \textbf{one} MPI rank, referencing all \texttt{.vtp} files including the respective time step.
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{.pvd and .vtp Files}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Example of a \texttt{.vtp} File with Two Bodies - 1}
+  \setfontsize{5.3pt}
+    \begin{minted}[bgcolor=lightgray!30,obeytabs=true,tabsize=2]{xml}
+<?xml version="1.0"?>
+<VTKFile type="PolyData" version="0.1" byte_order="LittleEndian" header_type="UInt64">
+	<PolyData>
+		<Piece NumberOfPoints="2" NumberOfVerts="2">
+			<Points>
+				<DataArray type="Float64" Name="position" NumberOfComponents="3" format="ascii">
+                    0 0 0
+                    -0.140728 -0.443901 -0.0233456
+				</DataArray>
+			</Points>
+			<PointData>
+        <DataArray type="Int32" Name="body_id" NumberOfComponents="1" format="ascii">
+                    0
+                    1
+        </DataArray>
+				<DataArray type="Float64" Name="velocity" NumberOfComponents="3" format="ascii">
+                    5.37193e-06 -7.4078e-06 -9.4222e-08
+                    0.0211745 -0.00710548 -0.00252296
+				</DataArray>
+				<DataArray type="Float64" Name="acceleration" NumberOfComponents="1" format="ascii">
+                    9.15107e-06
+                    0.022477
+				</DataArray>
+				<DataArray type="Float64" Name="mass" NumberOfComponents="1" format="ascii">
+                    1.98847e+30
+                    3.30101e+23
+				</DataArray>
+				<DataArray type="String" Name="name" NumberOfComponents="1" format="ascii">
+                    83 117 110 0
+                    77 101 114 99 117 114 121 0
+				</DataArray>
+  \end{minted}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Example of a \texttt{.vtp} File with Two Bodies - 2}
+  \setfontsize{5.3pt}
+    \begin{minted}[bgcolor=lightgray!30,obeytabs=true,tabsize=2]{xml}
+				<DataArray type="Int32" Name="orbit_class" NumberOfComponents="1" format="ascii">
+                    0
+                    1
+				</DataArray>
+			</PointData>
+			<Verts>
+				<DataArray type="Int64" Name="offsets">
+                    1 2 
+				</DataArray>
+				<DataArray type="Int64" Name="connectivity">
+                    0 1 
+				</DataArray>
+			</Verts>
+		</Piece>
+		<FieldData>
+			<DataArray type="Float64" Name="kinetic energy" NumberOfTuples="1" format="ascii">
+                    7.18489e+22
+			</DataArray>
+			<DataArray type="Float64" Name="potential energy" NumberOfTuples="1" format="ascii">
+                    -1.37988e+23
+			</DataArray>
+			<DataArray type="Float64" Name="total energy" NumberOfTuples="1" format="ascii">
+                    -6.6139e+22
+			</DataArray>
+			<DataArray type="Float64" Name="virial equilibrium" NumberOfTuples="1" format="ascii">
+                    1.04138
+			</DataArray>
+		</FieldData>
+	</PolyData>
+</VTKFile>
+  \end{minted}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{\texttt{.vtp} File General Remarks}
+    \begin{itemize}
+        \item The \texttt{body\_id} must be unique for each body \textbf{across all} MPI ranks.
+        \item The \texttt{name} must be saved converting each character to its ASCII representation and adding a \texttt{NULL} terminator. \\[.25em]
+        Example:\quad
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            S & u & n & \\\hline
+            83 & 117 & 110 & 0 \\\hline 
+        \end{tabular}
+        \item The orbit~class is an integer corresponding to one of the classes on the bonus material
+        \hyperlink{orbit_classes}{slide \ref{orbit_classes}}.
+        \itFollows{Devise a suitable mapping!}
+        \item The \texttt{offsets} and \texttt{connectivity} must start at \texttt{1} and \texttt{0} respectively on \textbf{each} MPI rank.
+    \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Example of a \texttt{.pvd} File}
+  \textbf{Note:} \mintinline{xml}{timestep} \textbf{does not} correspond to the current time step number but to the current simulation time (in earth days)!
+  \vfill
+  Example with a visualization step width $vs = \SI{5}{\day}$ using two MPI ranks:
+  \setfontsize{7.2pt}
+  \begin{minted}[bgcolor=lightgray!30,obeytabs=true,tabsize=2]{xml}
+<?xml version="1.0"?>
+<VTKFile type="Collection" version="0.1" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+	<Collection>
+		<DataSet timestep="0.0" group="" part="0" file="time_series/0/sim.0.vtp"/>
+		<DataSet timestep="0.0" group="" part="1" file="time_series/1/sim.0.vtp"/>
+		<DataSet timestep="5.0" group="" part="0" file="time_series/0/sim.1.vtp"/>
+		<DataSet timestep="5.0" group="" part="1" file="time_series/1/sim.1.vtp"/>
+		<DataSet timestep="10.0" group="" part="0" file="time_series/0/sim.2.vtp"/>
+		<DataSet timestep="10.0" group="" part="1" file="time_series/1/sim.2.vtp"/>
+		<DataSet timestep="15.0" group="" part="0" file="time_series/0/sim.3.vtp"/>
+		<DataSet timestep="15.0" group="" part="1" file="time_series/1/sim.3.vtp"/>
+	</Collection>
+</VTKFile>
+  \end{minted}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{ParaView}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{ParaView Basics - 1}
+	Most important ParaView views and options:
+	\setlength{\leftmargini}{-0.4cm}
+    \setlength{\leftmarginii}{-0.4cm}
+    \begin{description}
+      \item[View $\rightarrow$ Properties] used for general visualization properties
+      \begin{itemize}
+          \item Use \texttt{Points} as \textit{Representation}.
+          \item Use an appropriate \textit{Point Size}.
+      \end{itemize}
+      \item[View $\rightarrow$ Find Data] used to extract data satisfying a specific property
+      \begin{itemize}
+          \item Can be used to create different groups for, e.g., different orbit classes (these groups can then be visualized with different colors or \textit{Point Sizes}!).
+          \item Use \texttt{name} in the \textit{Point Labels} drop-down menu to print the body name during the simulation.
+          \item Can also be used to search for a specific body (\textbf{Note:} unfortunately it is not possible to search by the body name in ParaView!).
+      \end{itemize}
+      \item[View $\rightarrow$ Animation View] used for more control over the simulation visualization
+      \begin{itemize}
+          \item Select a previously generated (via \enquote{Find Data}) extraction.
+          \item Select \texttt{Camera} and \texttt{Follow Data} in the two drop-downs and click the \textit{+}.
+          \item ParaView now follows the specified data during the simulation!
+      \end{itemize}
+    \end{description}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{ParaView Basics - 2}
+	\setlength{\leftmargini}{-0.4cm}
+    \setlength{\leftmarginii}{-0.4cm}
+    \begin{description}
+      \item[Automate ParaView Tasks] \hfill\\
+        \begin{itemize}
+            \item Start recording via \textit{Tools $\rightarrow$ Start Trace}.
+            \item Do all the stuff you want to be automated.
+            \item Stop recording via \textit{Tools $\rightarrow$ Stop Trace}.
+            \item A new window opens where you can further customize the macro.
+            \item Save the script as macro via \textit{File $\rightarrow$ Save As Macro$\dots$}.
+            \item The new macro can now be found under \textit{Macros}.
+        \end{itemize}
+      \item[Filters $\rightarrow$ Data Analysis $\rightarrow$ Plot Global Variables Over Time] \hfill\\\hspace{-.5cm}
+        used to display the energy plot
+      \item[File $\rightarrow$ Save Screenshot...] \hfill\\\hspace{-.5cm}
+        used to save the \textbf{current} time step as an image
+      \item[File $\rightarrow$ Save Animation...] \hfill\\\hspace{-.5cm}
+        used the save the \textbf{whole} simulation as a video
+    \end{description}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
